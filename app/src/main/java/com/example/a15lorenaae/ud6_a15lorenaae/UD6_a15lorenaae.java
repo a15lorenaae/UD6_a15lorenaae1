@@ -3,6 +3,8 @@ package com.example.a15lorenaae.ud6_a15lorenaae;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class UD6_a15lorenaae extends FragmentActivity implements OnMapReadyCallback {
+public class UD6_a15lorenaae extends FragmentActivity implements OnMapReadyCallback, LocationListener {
     private LocationManager locManager;
     private String provedor;
     private GoogleMap mMap;
@@ -31,7 +33,10 @@ public class UD6_a15lorenaae extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        obterprovedores();
+
     }
+
     private void dialogoAlertaNonGPS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(
@@ -82,7 +87,6 @@ public class UD6_a15lorenaae extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -96,13 +100,39 @@ public class UD6_a15lorenaae extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        locManager.requestLocationUpdates(provedor,0,100,UD6_a15lorenaae.this);
+        Toast.makeText(getApplicationContext(), "Comenzado a rexistrar...", Toast.LENGTH_SHORT).show();
+
+        Location last =locManager.getLastKnownLocation(provedor);
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(XeoLocalizacion.localizacions).title("Lore").snippet("Estamos nesta posicion "+googleMap.getCameraPosition().target.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.lazo)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+       /* LatLng localizacion = new LatLng(last.getLatitude(), last.getLongitude());*/
+        LatLng pos = new LatLng(42.879985, -8.544855);
+        mMap.addMarker(new MarkerOptions().position(pos).title("Lore").snippet("Estamos nesta posicion " + googleMap.getCameraPosition().target.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.lazo)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 
 
 
 
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(getApplicationContext(), "O provedor " + provider + " está activo", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(getApplicationContext(), "O provedor " + provider + " xa non está activo", Toast.LENGTH_LONG).show();
     }
 }

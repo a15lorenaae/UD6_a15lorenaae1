@@ -7,6 +7,10 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -26,8 +30,8 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB-Jj6vVN96D3Ndxe8TqvCQHmvQNNvH4wM"/>
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAh4zMiE0h85mqJeb3RBZBB1h2KnVok56U"/>
 
         <activity
             android:name=".UD6_a15lorenaae"
@@ -39,5 +43,7 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 </manifest>
